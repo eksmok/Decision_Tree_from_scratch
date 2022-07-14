@@ -15,7 +15,7 @@ class Information_gaing(Purity_function):
 
 
 
-    def _entropy(self, label_values) -> float:
+    def _entropy(self, label_values: np.array) -> float:
         _, uniqueClassesCounts = np.unique(label_values, return_counts=True)
         probabilities = uniqueClassesCounts / uniqueClassesCounts.sum()
         return sum(probabilities * -np.log2(probabilities))
