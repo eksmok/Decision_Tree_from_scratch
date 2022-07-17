@@ -26,4 +26,3 @@ class InformationGain(AbstractPurityFunction):
             for branched_subset in split_label:
                 purity_score -= len(branched_subset) * self._entropy(branched_subset) / len(label)
         return purity_score
-    
