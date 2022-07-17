@@ -66,4 +66,3 @@ class Dataset:
         def load_from_array(data: np.ndarray, label: np.ndarray) -> 'Dataset':
             dataset = Dataset(feature=data, label=label)
             return dataset
-        
