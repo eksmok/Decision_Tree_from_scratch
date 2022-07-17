@@ -33,3 +33,37 @@ class Dataset:
     def get_condition(self, feature: int, feature_value) -> bool:
         mask = self.feature[:, feature] < feature_value
         return mask
+
+    class LoadDataset:
+        def __init__(self):
+            pass
+
+        @staticmethod
+        def load_from_csv(feature_path: str, csv_limiter: str, label_path: str, new_line: str = '') -> 'Dataset':
+
+            # Feature importation
+            with open(feature_path, newline=new_line) as csvfile:
+                data = []
+                reader = csv.reader(csvfile, delimiter=csv_limiter)
+                for row in reader:
+                    data.append(row)
+                data = np.asarray(data)
+
+                data = data[1:]
+            # Label importation
+            with open(label_path, newline=new_line) as csvfile:
+                label = []
+                reader = csv.reader(csvfile, delimiter=csv_limiter)
+                for row in reader:
+                    label.append(row)
+
+                label = np.asarray(label)
+
+            dataset = Dataset(feature=data, label=label)
+            return dataset
+
+        @staticmethod
+        def load_from_array(data: np.ndarray, label: np.ndarray) -> 'Dataset':
+            dataset = Dataset(feature=data, label=label)
+            return dataset
+        
