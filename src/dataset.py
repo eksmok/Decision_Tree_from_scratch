@@ -24,7 +24,7 @@ class Dataset:
         for feature in range(self._feature.shape[0]):
             max_purity_score = -np.inf
             best_value = None
-
+            feat = None
             for possible_split_value in possible_split_values[feature]:
                 mask = self._get_condition()
                 label_values_splitted = self._label_values[mask]
@@ -32,8 +32,8 @@ class Dataset:
                 if new_purity_score > max_purity_score:
                     max_purity_score = new_purity_score
                     best_value = possible_split_value
-
-            purity_score_by_feature[feature] = [max_purity_score, best_value]
+                    feat = feature
+            purity_score_by_feature[feature] = [max_purity_score, best_value, feature]
         return purity_score_by_feature
 
     def chose_best_split(self, purity_evaluation: AbstractPurityFunction):
@@ -46,20 +46,24 @@ class Dataset:
                 max_purity_score = purity_score_by_feature[0]
         return split
 
-    def make_split(self, split: List[float, Optional[str, float], int]) -> Tuple['Dataset', 'Dataset']:
-        mask = self._get_condition(split=split)
+    def make_split(self, feature: int, feature_value):
+
+        mask = self._get_condition(feat=feature, feature_value=feature_value)
 
         return Dataset(feature=self._feature[mask], labels_values=self._label_values[mask]),\
                Dataset(feature=self._feature[~mask], labels_values=self._label_values[~mask])
 
     # TODO : Have to find the argument and the understand how to get a condition.
-    def _get_condition(self, split) -> bool:
-        pass
+    def _get_condition(self, feat: int, feature_value) -> bool:
+        print(feat)
+        print(feature_value)
+        mask = self._feature[:, feat] < feature_value
+        print(mask)
+        return mask
 
 class LoadDataset:
-    def __init__(self, features: np.ndarray, labels_values: np.ndarray):
-        self._data = features
-        self._labels_values: np.ndarray = labels_values
+    def __init__(self):
+        pass
 
     @staticmethod
     def load_from_csv(feature_path: str, csv_limiter: str, label_path: str, new_line: str = '') -> 'Dataset':
