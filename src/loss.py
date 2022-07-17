@@ -9,9 +9,6 @@ class AbstractPurityFunction(ABC):
 
 
 class InformationGain(AbstractPurityFunction):
-    super().__init__()
-
-
 
     def _entropy(self, label_values: np.ndarray) -> float:
         _, number_of_unique_elements_per_class  = np.unique(label_values, return_counts=True)
@@ -20,4 +17,3 @@ class InformationGain(AbstractPurityFunction):
 
     def purity_score(self, labels_values: np.ndarray) -> float:
         return 1 - self._entropy(labels_values)
-
