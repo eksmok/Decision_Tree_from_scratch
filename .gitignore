@@ -1,3 +1,7 @@
 
 .idea/
 venv/
+
+*.csv
+
+src/__pycache__/
